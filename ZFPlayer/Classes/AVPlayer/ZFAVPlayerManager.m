@@ -150,6 +150,16 @@ static NSString *const kPresentationSize         = @"presentationSize";
     if (!_isPreparedToPlay) {
         [self prepareToPlay];
     } else {
+        
+        if (self.view.window==nil) {
+            //防止界面未显示播放
+            return;
+        }
+        if ([UIApplication sharedApplication].applicationState != UIApplicationStateActive) {
+            /// 不在前台运行则不播放
+            return;
+        }
+        
         [self.player play];
         self.player.rate = self.rate;
         self->_isPlaying = YES;
